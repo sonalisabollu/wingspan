@@ -10,6 +10,7 @@ public class Player {
     ArrayList<Bird> birds;
     ArrayList<Game.Food> foodTokens;
     private int actionCubes = 8;
+    private String name;
     Mat mat;
 
     public Player() {
@@ -17,6 +18,18 @@ public class Player {
         foodTokens = new ArrayList<>();
         foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed, Game.Food.Wild));
         mat = new Mat();
+    }
+    
+    /**
+     * Player constructor with name
+     * @param name player's name 
+    */
+    public Player(String name){
+        birds = new ArrayList<>();
+        foodTokens = new ArrayList<>();
+        foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed, Game.Food.Wild));
+        mat = new Mat();
+        this.name = name;
     }
 
     public int getActionCubes() {
@@ -42,8 +55,12 @@ public class Player {
                 out += ", ";
         }
         out += "\n\n";
-
-        out += "Player Mat: \n";
+        if(this.name != null){
+            out += this.name +"'s Mat: \n";
+        }else{
+            out += "Player Mat: \n";
+        }
+        
         out += mat;
         return out;
     }
