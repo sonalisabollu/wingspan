@@ -17,6 +17,7 @@ public class Game {
     private Player player;
     private Random rand;
     private int numPlayers;
+    private int currentGameRound = 1; //Counter for current round in game
 
     final int BIRD_CARDS_PER_PLAYER = 3;
     final int FOOD_TOKENS_PER_PLAYER = 5-BIRD_CARDS_PER_PLAYER;
@@ -113,7 +114,6 @@ public class Game {
         }
     }
 
-    
     public void printOptions() {
         System.out.println("******************************************");
         System.out.println(player);
@@ -199,7 +199,7 @@ public class Game {
             break;
         }
     }
-    
+
     /**
      * Handles a player's option selection.
      * @param player specified player
@@ -281,13 +281,33 @@ public class Game {
             player.addBirdCard(drawCard());
         }
     }
-
+    
     /**
-     * All action required for a single player's turn.
+     * Card setup for multiplayer 
      * @param player selected player 
      */
-    public void turnActiom(int player){
+    public void setup(Player player) {
+        for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
+            player.addBirdCard(drawCard());
+        }
+    }
 
+    /**
+     * All action required for a round in the game. 
+     * @param player selected player 
+     */
+    public void roundAction(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("*** ROUND "+ this.currentGameRound + " ***");//Print out current round
+        for(Player player: this.players){//Loop through each player in game
+            if(player.hasName()){//If player has a name
+                System.out.println(player.getName()+ "'s turn\n");
+            }
+            this.printOptions(player);
+            System.out.println("Choose an option: ");
+            this.selectOption(player, input.nextInt());
+        }
+        currentGameRound++;//Increase the round counter
     }
 
     public static void main(String[] args) throws IOException {
