@@ -71,6 +71,7 @@ public class Game {
         this.numPlayers = numPlayers;
 
         birds = new ArrayList<>();
+        players = new ArrayList<>();
         rand = new Random();
 
         for(int index = 0; index<numPlayers; index++){
@@ -281,14 +282,16 @@ public class Game {
             player.addBirdCard(drawCard());
         }
     }
-    
+
     /**
-     * Card setup for multiplayer 
+     * Card setup for all players in the game 
      * @param player selected player 
      */
-    public void setup(Player player) {
-        for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
-            player.addBirdCard(drawCard());
+    public void setupAll() {
+        for(Player player: this.players){//Loop through each player in game
+            for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
+                player.addBirdCard(drawCard());
+            }
         }
     }
 
