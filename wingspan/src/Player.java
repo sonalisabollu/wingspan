@@ -31,6 +31,10 @@ public class Player {
         mat = new Mat();
         this.name = name;
     }
+    
+    public String getName(){
+        return this.name;
+    }
 
     public int getActionCubes() {
         return actionCubes;
@@ -109,6 +113,14 @@ public class Player {
 
     public void addBirdCard(Bird bird) {
         birds.add(bird);
+    }
+    
+    public boolean hasName(){
+        if(this.name.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public boolean removeBirdCard(int id) {
