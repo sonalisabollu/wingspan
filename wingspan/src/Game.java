@@ -287,13 +287,13 @@ public class Game {
      * Card setup for all players in the game 
      * @param player selected player 
      */
-    public void setupAll() {
-        for(Player player: this.players){//Loop through each player in game
-            for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
-                player.addBirdCard(drawCard());
-            }
-        }
-    }
+       public void setupAll() {
+         for(Player player: this.players){//Loop through each player in game
+             for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
+                 player.addBirdCard(drawCard());
+             }
+         }
+     }
 
     /**
      * All action required for a round in the game. 
