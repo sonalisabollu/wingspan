@@ -277,12 +277,6 @@ public class Game {
         return card;
     }
 
-    public void setup() {
-        for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
-            player.addBirdCard(drawCard());
-        }
-    }
-
     /**
      * Card setup for all players in the game 
      * @param player selected player 
