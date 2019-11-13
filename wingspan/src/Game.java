@@ -200,6 +200,17 @@ public class Game {
             break;
         }
     }
+    
+    public void playCardAction(Bird card, Habitat habitat) {
+        int op = card.getId();
+        int lec = player.getMat().getLeftMostEmptyCell(habitat)+1;
+        int oldColumnsFilled = columnsFilled;
+        columnsFilled = Math.max(lec, columnsFilled);
+        player.setActionCubes(player.getActionCubes()-(columnsFilled-oldColumnsFilled));
+        player.removeFoodTokens(op);
+        player.getMat().addCard(card, habitat);
+        player.removeBirdCard(op);
+    }
 
     /**
      * Handles a player's option selection.
@@ -288,6 +299,13 @@ public class Game {
              }
          }
      }
+       
+       public void setup() {
+           for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
+               player.addBirdCard(drawCard());
+           }
+       }
+
 
     /**
      * All action required for a round in the game. 
@@ -305,6 +323,10 @@ public class Game {
             this.selectOption(player, input.nextInt());
         }
         currentGameRound++;//Increase the round counter
+    }
+    
+    public Player getPlayer() {
+        return this.player;
     }
 
     public static void main(String[] args) throws IOException {

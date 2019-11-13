@@ -35,16 +35,18 @@ public class Mat {
 
     }
 
-    public void addCard(Bird bird, Game.Habitat habitat) {
+    public boolean addCard(Bird bird, Game.Habitat habitat) {
 
         //ArrayList<Game.Habitat> habts = bird.getHabitat();
         boolean inserted = false;
         int row = (habitat.ordinal());
         int col = (getLeftMostEmptyCell(habitat));
-        if (cellFilled[row][col] == false) {
+        if (col >= 0 && cellFilled[row][col] == false) {
             insertCardAt(rowCoords.get(row), colCoords.get(col), bird.getName());
             cellFilled[row][col] = true;
+            return true;
         }
+        return false;
     }
 
     public boolean emptyCellExists(Bird bird) {

@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+
 import org.junit.Test;
 
 public class MatTest {
@@ -22,5 +23,17 @@ public class MatTest {
 		wingspan.selectOption(1);
 		wingspan.printOptions();
 	}
+	
+	@Test
+	public void testCardIsRejectedWhenHabitatFull() {
+		Mat mat = new Mat();
+		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertFalse(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+	}
+
 
 }
