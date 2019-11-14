@@ -1,0 +1,10 @@
+TO DO
+-removing food tokens correctly when playing bird
+-implement lay eggs and take food actions during turn
+-bonus card implementation
+-goal cards
+-birdfeeder
+-error handling for wrong type input
+-declare winner of game based on score
+-model and view separation 
+-final tests
