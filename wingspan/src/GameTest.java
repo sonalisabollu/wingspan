@@ -14,13 +14,12 @@ import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
-
 public class GameTest {
 
 	//Tests playing a bird on the Mat
 	@Test
 	public void testPlayBird() throws IOException {
-		Game wingspan = new Game("birds.csv");
+		Game wingspan = new Game("birds.csv", 1);
 		wingspan.setup();
 		Player player = wingspan.getPlayer();
 		ArrayList<Bird> cards = player.getBirdCards();
@@ -30,6 +29,7 @@ public class GameTest {
 		wingspan.playCardAction(cards.get(0), habitat);
 		assertEquals(wingspan.getPlayer().getBirdCards().size(), 2);
 		assertEquals(1, player.getMat().getLeftMostEmptyCell(habitat));
+
 	}
 
 	//Tests drawing a card
@@ -47,8 +47,8 @@ public class GameTest {
 		Game wingspan = new Game("birds.csv");
 		wingspan.setup();
 		assertEquals(wingspan.getPlayer().getBirdCards().size(), 3);
-		Bird bird1 = new Bird(174, "");
-		Bird bird2 = new Bird(175, "");
+		Bird bird1 = new Bird(174, "", 1);
+		Bird bird2 = new Bird(175, "", 1);
 		bird1.addHabitat(Game.Habitat.Wetlands);
 		bird2.addHabitat(Game.Habitat.Wetlands);
 		wingspan.getPlayer().addBirdCard(bird1);
@@ -63,9 +63,10 @@ public class GameTest {
 
 	@Test
 	public void testPlayerInitialActionCubes() {
-		Game wingspan = new Game("birds.csv");
+		Game wingspan = new Game("birds.csv", 1);
 		assertEquals(wingspan.getPlayer().getActionCubes(), 8);
 	}
+
 
 	@Test
 	public void testSelectOption() {

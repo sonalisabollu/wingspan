@@ -15,10 +15,10 @@ public class Player {
     Mat mat;
 
     public Player() {
-        birds = new ArrayList<>();
-        foodTokens = new ArrayList<>();
-        foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed, Game.Food.Wild));
-        mat = new Mat();
+    	 birds = new ArrayList<>();
+         foodTokens = new ArrayList<>();
+         mat = new Mat();
+
     }
     
     /**
@@ -26,11 +26,11 @@ public class Player {
      * @param name player's name 
     */
     public Player(String name){
-        birds = new ArrayList<>();
-        foodTokens = new ArrayList<>();
-        foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed, Game.Food.Wild));
-        mat = new Mat();
-        this.name = name;
+    	  birds = new ArrayList<>();
+          foodTokens = new ArrayList<>();
+          mat = new Mat();
+          this.name = name;
+
     }
     
     public String getName(){
@@ -46,36 +46,38 @@ public class Player {
     }
 
     public String toString() {
-        String out = "";
-        out += "Action Cubes: "+actionCubes+"\n\n";
-        out += "My Bird Cards: \n";
-        for(int i = 0; i < birds.size(); i++) {
-            out += birds.get(i)+"\n";
-        }
-        out += "\n";
-        out += "My Food Tokens: ";
-        for(int i = 0; i < foodTokens.size(); i++) {
-            out += foodTokens.get(i);
-            if (i < foodTokens.size()-1)
-                out += ", ";
-        }
-        out += "\n\n";
-        if(this.name != null){
-            out += this.name +"'s Mat: \n";
-        }else{
-            out += "Player Mat: \n";
-        }
-        
-        out += mat;
-        return out;
-    }
+    	 String out = "";
+         out += "["+name+"]\n";
+         out += "Action Cubes: "+actionCubes+"\n\n";
+         out += "My Bird Cards: \n";
+         for(int i = 0; i < birds.size(); i++) {
+             out += birds.get(i)+"\n";
+         }
+         out += "\n";
+         out += "My Food Tokens: ";
+         for(int i = 0; i < foodTokens.size(); i++) {
+             out += foodTokens.get(i);
+             if (i < foodTokens.size()-1)
+                 out += ", ";
+         }
+         out += "\n\n";
+         if(this.name != null){
+             out += this.name +"'s Mat: \n";
+         }else{
+             out += "Player Mat: \n";
+         }
+         
+         out += mat;
+         return out;
+     }
 
-    public boolean hasFoodToken(ArrayList<Game.Food> foods) {
-        for(int i = 0; i < foods.size(); i++) {
-            if (!foodTokens.contains(foods.get(i)))
-                return false;
-        }
-        return true;
+     public boolean hasFoodToken(ArrayList<Game.Food> foods) {
+         for(int i = 0; i < foods.size(); i++) {
+             if (!foodTokens.contains(foods.get(i)))
+                 return false;
+         }
+         return true;
+
     }
 
     public boolean hasEnoughFoodTokens(int cardId) {
@@ -114,6 +116,10 @@ public class Player {
 
     public void addBirdCard(Bird bird) {
         birds.add(bird);
+    }
+    
+    public void addFoodToken(Game.Food token) {
+        foodTokens.add(token);
     }
     
     public boolean hasName(){

@@ -6,10 +6,12 @@ public class Main {
     public Game game;
 
     public Main() {
-        this.game = new Game(BIRD_FILE);
-        game.setup();
+    	 Scanner input = new Scanner(System.in);
+         System.out.println("Number of Players: ");
+         int numberOfPlayers = input.nextInt();
+         this.game = new Game(BIRD_FILE, numberOfPlayers);
+         game.setup();
 
-        Scanner input = new Scanner(System.in);
 
         while(true) {
             printOptions();
@@ -35,7 +37,7 @@ public class Main {
         System.out.print("Input Card Id: ");
         Scanner input = new Scanner(System.in);
         int op = input.nextInt();
-        Bird card;
+        Bird card = null;
         while ((card = game.getPlayer().getBirdCard(op)) == null || !game.getPlayer().getMat().emptyCellExists(card) || !game.getPlayer().hasEnoughFoodTokens(op)) {
             if (card == null)
                 System.out.println("[ERROR] Invalid Id.");
@@ -48,6 +50,7 @@ public class Main {
         }
         return card;
     }
+
 
     public Game.Habitat inputHabitat(Bird card) {
         Scanner input = new Scanner(System.in);

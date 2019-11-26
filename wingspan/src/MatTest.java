@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 
+
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -47,12 +48,13 @@ public class MatTest {
 	@Test
 	public void testCardIsRejectedWhenHabitatFull() {
 		Mat mat = new Mat();
-		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
-		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
-		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
-		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
-		assertTrue(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
-		assertFalse(mat.addCard(new Bird(0, ""), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+		assertFalse(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
+
 	}
 
 

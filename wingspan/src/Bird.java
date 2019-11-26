@@ -5,12 +5,15 @@ public class Bird {
     private String name;
     private ArrayList<Game.Habitat> habitats;
     private ArrayList<Game.Food> foods;
-    public Bird(int id, String name) {
+    private int victoryPoint;
+    public Bird(int id, String name, int victoryPoint) {
         foods = new ArrayList<>();
         habitats = new ArrayList<>();
         this.name = name;
         this.id = id;
+        this.victoryPoint = victoryPoint;
     }
+
 
     public void setName(String name) {
         this.name = name;
