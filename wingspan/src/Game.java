@@ -10,11 +10,12 @@ import java.util.Scanner;
 
 public class Game {
 
-    public enum Habitat {Forest, Grasslands, Wetlands}
+	public enum Habitat {Forest, Grasslands, Wetlands}
     public enum Food {Wild, Invertebrate, Seed, Fruit, Fish, Rodent}
     public final int[] WETLAND_DRAW_CARD = {1, 1, 2, 2, 2};
     private int[] columnsFilled;
 
+    private int columns = 0;
     private ArrayList<Bird> birds;
     private ArrayList<Player> players;
     private Random rand;
@@ -31,7 +32,6 @@ public class Game {
     	birds = new ArrayList<>();
         players = new ArrayList<>();
         rand = new Random();
-
 
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(birdsFile));
@@ -70,8 +70,6 @@ public class Game {
         }
     }
 
-
-
     /**
      * Mulitplayer constructor for Game
      * @param players number of players 
@@ -83,14 +81,13 @@ public class Game {
          birds = new ArrayList<>();
          players = new ArrayList<>();
          rand = new Random();
-
+         
          for(int index = 0; index<numPlayers; index++){
              Player newPlayer = new Player("Player"+(index));
              this.players.add(newPlayer);
              columnsFilled[index] = 0;
 
          }
-
          try {
              BufferedReader csvReader = new BufferedReader(new FileReader(birdsFile));
 
@@ -126,18 +123,6 @@ public class Game {
 
          }
      }
-
-
-
-    public void printOptions() {
-    	Player player = players.get(currentPlayer);
-        System.out.println("******************************************");
-        System.out.println(player);
-        System.out.println("1. Play a bird");
-        System.out.println("2. Draw cards");
-        if(player.getActionCubes() == 0)
-            System.out.println("No action cubes left. Kindly restart the game.");
-    }
 
     /**
      * Prints options for specified player
@@ -180,15 +165,50 @@ public class Game {
     
     public void playCardAction(Bird card, Habitat habitat) {
     	  Player player = players.get(currentPlayer);
-          int op = card.getId();
+    	  System.out.print("Input Card Id: ");
+          Scanner input = new Scanner(System.in);
+          int op = input.nextInt();
+          while ((card = player.getBirdCard(op)) == null || !player.getMat().emptyCellExists(card) || !player.hasEnoughFoodTokens(op)) {
+              if (card == null)
+                  System.out.println("[ERROR] Invalid Id.");
+              else if(!player.getMat().emptyCellExists(card))
+                  System.out.println("[ERROR] Invalid habitat. No empty cells.");
+              else
+                  System.out.println("[ERROR] Not enough food tokens.");
+              System.out.println("Kindly select valid card Id: ");
+              if(input.hasNextInt()) {
+            	  op = input.nextInt();  
+              }
+              else {
+            	  System.out.println("Please enter a valid card Id: ");
+              }
+          }
+          input.nextLine();
+          boolean habitatExists = false;
+          do {
+              System.out.print("Input Habitat: ");
+              String hbt = input.nextLine();
+              try {
+                  habitat = Habitat.valueOf(hbt);
+                  habitatExists = true;
+              }
+              catch (Exception e) {
+              }
+              if(!habitatExists)
+                  System.out.println("Habitat doesn't exist.");
+              else if (!card.getHabitat().contains(habitat))
+                  System.out.println("Bird doesn't live in that habitat.");
+              else if(!player.getMat().emptyCellExists(habitat))
+                  System.out.println("Not space left in that habitat.");
+          }
+          while (!habitatExists || !card.getHabitat().contains(habitat));
           int lec = player.getMat().getLeftMostEmptyCell(habitat)+1;
-          int oldColumnsFilled = columnsFilled[currentPlayer];
-          columnsFilled[currentPlayer] = Math.max(lec, columnsFilled[currentPlayer]);
-          player.setActionCubes(player.getActionCubes()-(columnsFilled[currentPlayer]-oldColumnsFilled));
+          int oldColumnsFilled = columns;
+          columns = Math.max(lec, columns);
+          player.setActionCubes(player.getActionCubes()-(columns-oldColumnsFilled));
           player.removeFoodTokens(op);
           player.getMat().addCard(card, habitat);
           player.removeBirdCard(op);
-
     }
 
     public void passTurn() {
@@ -222,25 +242,78 @@ public class Game {
      * @param player selected player 
      */
     public void setup() {
+    	Scanner input = new Scanner(System.in);
         for(Player player: this.players){//Loop through each player in game
+       	 System.out.println("Enter your name: ");
+       	 player.setName(input.next());
             for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
                 player.addBirdCard(drawCard());
             }
         }
     }
 
+    public Bird inputCard() {
+        System.out.print("Input Card Id: ");
+        Scanner input = new Scanner(System.in);
+        int op = input.nextInt();
+        Bird card = null;
+        while ((card = this.getPlayer().getBirdCard(op)) == null || !this.getPlayer().getMat().emptyCellExists(card) || !this.getPlayer().hasEnoughFoodTokens(op)) {
+            if (card == null)
+                System.out.println("[ERROR] Invalid Id.");
+            else if(!this.getPlayer().getMat().emptyCellExists(card))
+                System.out.println("[ERROR] Invalid habitat. No empty cells.");
+            else
+                System.out.println("[ERROR] Not enough food tokens.");
+            System.out.println("Kindly select valid card Id: ");
+            op = input.nextInt();
+        }
+        return card;
+    }
 
+
+    public Game.Habitat inputHabitat(Bird card) {
+        Scanner input = new Scanner(System.in);
+        Game.Habitat habitat = null;
+        boolean habitatExists = false;
+        do {
+            System.out.print("Input Habitat: ");
+            String hbt = input.nextLine();
+            try {
+                habitat = Game.Habitat.valueOf(hbt);
+                habitatExists = true;
+            }
+            catch (Exception e) {
+            }
+            if(!habitatExists)
+                System.out.println("Habitat doesn't exist.");
+            else if (!card.getHabitat().contains(habitat))
+                System.out.println("Bird doesn't live in that habitat.");
+            else if(!this.getPlayer().getMat().emptyCellExists(habitat))
+                System.out.println("Not space left in that habitat.");
+        }
+        while (!habitatExists || !card.getHabitat().contains(habitat));
+        return habitat;
+    }
+
+    public void printOptions() {
+        System.out.println("******************************************");
+        System.out.println(this.getPlayer());
+        System.out.println("1. Play a bird");
+        System.out.println("2. Draw cards");
+        if(this.getPlayer().getActionCubes() == 0)
+            System.out.println("No action cubes left. Your turn is over!");
+    }
     /**
      * All action required for a round in the game. 
      * @param player selected player 
      */
     public void roundAction(){
     	 Scanner input = new Scanner(System.in);
-         System.out.println("*** ROUND "+ this.currentGameRound + " ***");//Print out current round
-         //makes sure game only runs for 4 rounds
          while(this.currentGameRound < 5) {
+        	System.out.println("*** ROUND "+ this.currentGameRound + " ***");//Print out current round
          	for(Player player: this.players){//Loop through each player in game
                  if(player.hasName()){//If player has a name
+                	 
                      System.out.println(player.getName()+ "'s turn\n");
                      System.out.println(player.getName()+ "'s current score: " + player.calculateScore(player));
                  }
