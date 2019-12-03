@@ -167,17 +167,9 @@ public class Player {
             	}
             }
         }
-       
-       	//Points for each bonus card, dependent on card
-       	
-       	//Points for end of round goals
-       	
        	//1 point for each egg
        	totalScore += player.getEggs();
-       	//1 point for each food token cached on a bird card
-       	
-       	//1 point for each card tucked under a bird card
-       	
+     
        	player.setScore(totalScore);
        	return player.getScore();
        }
