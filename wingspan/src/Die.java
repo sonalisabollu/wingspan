@@ -12,6 +12,7 @@ public class Die
     public Die(int faces)
     {
         this.faces = faces;
+        this.roll();
     }
 
     /**
