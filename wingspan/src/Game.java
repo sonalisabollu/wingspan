@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Game {
 
-	public enum Habitat {Forest, Grasslands, Wetlands}
+    public enum Habitat {Forest, Grasslands, Wetlands}
     public enum Food {Wild, Invertebrate, Seed, Fruit, Fish, Rodent}
     public final int[] WETLAND_DRAW_CARD = {1, 1, 2, 2, 2};
     private int[] columnsFilled;
@@ -23,13 +23,13 @@ public class Game {
     private int currentPlayer = 0;
 
     final int BIRD_CARDS_PER_PLAYER = 3;
-    final int FOOD_TOKENS_PER_PLAYER = 3;
+    final int FOOD_TOKENS_PER_PLAYER = 5;
     final int MAX_ROUND = 4;
 
 
     public Game(String birdsFile) {
     	birds = new ArrayList<>();
-        player = new Player();
+        players = new ArrayList<>();
         rand = new Random();
 
 
@@ -177,9 +177,6 @@ public class Game {
          return 0;
 
     }
-
-    
-
     
     public void playCardAction(Bird card, Habitat habitat) {
     	  Player player = players.get(currentPlayer);
@@ -229,9 +226,6 @@ public class Game {
             for(int i = 0; i < BIRD_CARDS_PER_PLAYER; i++) {
                 player.addBirdCard(drawCard());
             }
-            for(int i = 0; i < FOOD_TOKENS_PER_PLAYER; i++) {
-                player.addFoodToken(getFoodToken());
-            }
         }
     }
 
@@ -241,17 +235,29 @@ public class Game {
      * @param player selected player 
      */
     public void roundAction(){
-        Scanner input = new Scanner(System.in);
-        System.out.println("*** ROUND "+ this.currentGameRound + " ***");//Print out current round
-        for(Player player: this.players){//Loop through each player in game
-            if(player.hasName()){//If player has a name
-                System.out.println(player.getName()+ "'s turn\n");
-            }
-            this.printOptions(player);
-            System.out.println("Choose an option: ");
-            this.selectOption(player, input.nextInt());
-        }
-        currentGameRound++;//Increase the round counter
+    	 Scanner input = new Scanner(System.in);
+         System.out.println("*** ROUND "+ this.currentGameRound + " ***");//Print out current round
+         //makes sure game only runs for 4 rounds
+         while(this.currentGameRound < 5) {
+         	for(Player player: this.players){//Loop through each player in game
+                 if(player.hasName()){//If player has a name
+                     System.out.println(player.getName()+ "'s turn\n");
+                     System.out.println(player.getName()+ "'s current score: " + player.calculateScore(player));
+                 }
+                 while(player.getActionCubes() != 0) {
+                 	this.printOptions(player);
+                 	System.out.println("Choose an option: ");
+                 	this.selectOption(input.nextInt(), null, null);
+                 }
+                 System.out.println("All out of action cubes, your round is over!");
+                 player.setActionCubes(8 - currentGameRound);
+             }
+             currentGameRound++;//Increase the round counter
+         }
+         System.out.println("GAME OVER! Here are the final scores: ");
+     	for(Player player: this.players) {
+     		System.out.println(player.getName()+ "'s final score: " + player.getScore());
+     	}
     }
     
    
