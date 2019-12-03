@@ -14,9 +14,8 @@ import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
-public class GameTest {
 
-	//Tests playing a bird on the Mat
+public class GameTest {	//Tests playing a bird on the Mat
 	@Test
 	public void testPlayBird() throws IOException {
 		Game wingspan = new Game("birds.csv", 1);
@@ -29,13 +28,12 @@ public class GameTest {
 		wingspan.playCardAction(cards.get(0), habitat);
 		assertEquals(wingspan.getPlayer().getBirdCards().size(), 2);
 		assertEquals(1, player.getMat().getLeftMostEmptyCell(habitat));
-
 	}
 
 	//Tests drawing a card
 	@Test
 	public void testDrawCards() {
-		Game wingspan = new Game("birds.csv");
+		Game wingspan = new Game("birds.csv", 1);
 		wingspan.setup();
 		assertEquals(wingspan.getPlayer().getBirdCards().size(), 3);
 		wingspan.selectOption(2, null, null);
@@ -44,7 +42,7 @@ public class GameTest {
 
 	@Test
 	public void testTwoCardsAreDrawnAtOnce() {
-		Game wingspan = new Game("birds.csv");
+		Game wingspan = new Game("birds.csv", 1);
 		wingspan.setup();
 		assertEquals(wingspan.getPlayer().getBirdCards().size(), 3);
 		Bird bird1 = new Bird(174, "", 1);
@@ -67,10 +65,9 @@ public class GameTest {
 		assertEquals(wingspan.getPlayer().getActionCubes(), 8);
 	}
 
-
 	@Test
 	public void testSelectOption() {
-		Game wingspan  = new Game("birds.csv");
+		Game wingspan  = new Game("birds.csv", 1);
 		wingspan.setup();
 		ArrayList<Bird> cards = wingspan.getPlayer().getBirdCards();
 		Bird card = cards.get(0);

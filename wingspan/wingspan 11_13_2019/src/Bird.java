@@ -11,6 +11,13 @@ public class Bird {
         this.name = name;
         this.id = id;
     }
+    public int getVictoryPoint() {
+        return victoryPoint;
+    }
+
+    public void setVictoryPoint(int victoryPoint) {
+        this.victoryPoint = victoryPoint;
+    }
 
     public void setName(String name) {
         this.name = name;

@@ -10,6 +10,7 @@ public class Mat {
     boolean[][] cellFilled;
     HashMap<Integer, Integer> rowCoords;
     HashMap<Integer, Integer> colCoords;
+    ArrayList<Bird> birds;
 
     final int MAT_ROWS = 3;
     final int MAT_COLUMNS = 5;
@@ -19,6 +20,7 @@ public class Mat {
         mat = new ArrayList<>();
         rowCoords = new HashMap<>();
         colCoords = new HashMap<>();
+        birds = new ArrayList<>();
         cellFilled = new boolean[MAT_ROWS][MAT_COLUMNS];
 
         try {
@@ -36,14 +38,17 @@ public class Mat {
 
     }
 
-    public boolean addCard(Bird bird, Game.Habitat habitat) {
+    public ArrayList<Bird> getBirds() {
+        return birds;
+    }
 
-        //ArrayList<Game.Habitat> habts = bird.getHabitat();
+    public boolean addCard(Bird bird, Game.Habitat habitat) {
         boolean inserted = false;
         int row = (habitat.ordinal());
         int col = (getLeftMostEmptyCell(habitat));
         if (col >= 0 && cellFilled[row][col] == false) {
-            insertCardAt(rowCoords.get(row), colCoords.get(col), bird.getName());
+            birds.add(bird);
+            insertCardAt(rowCoords.get(row), colCoords.get(col), bird.getName()+"("+bird.getVictoryPoint()+")");
             cellFilled[row][col] = true;
             return true;
         }

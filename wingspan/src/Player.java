@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,20 +10,21 @@ import java.util.Arrays;
 //import Game.Food;
 
 public class Player {
-    ArrayList<Bird> birds;
-    ArrayList<Game.Food> foodTokens;
+    private ArrayList<Bird> birds;
+    private ArrayList<Game.Food> foodTokens;
     private int actionCubes = 8;
     private int eggs = 0;
     private int score = 0;
     private String name;
-    Mat mat;
+    private Mat mat;
 
     public Player() {
         birds = new ArrayList<>();
         foodTokens = new ArrayList<>();
-        foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed));
         mat = new Mat();
     }
+    
+
     
     /**
      * Player constructor with name
@@ -31,17 +33,12 @@ public class Player {
     public Player(String name){
         birds = new ArrayList<>();
         foodTokens = new ArrayList<>();
-        foodTokens.addAll(Arrays.asList(Game.Food.Fruit, Game.Food.Fish, Game.Food.Rodent, Game.Food.Invertebrate, Game.Food.Seed));
         mat = new Mat();
         this.name = name;
     }
     
     public String getName(){
         return this.name;
-    }
-    
-    public void setName(String n) {
-    	name = n;
     }
 
     public int getActionCubes() {
@@ -51,6 +48,7 @@ public class Player {
     public void setActionCubes(int x) {
         actionCubes = x;
     }
+
     
     public int getEggs() {
     	return eggs;
@@ -70,6 +68,7 @@ public class Player {
 
     public String toString() {
         String out = "";
+        out += "["+name+"]\n";
         out += "Action Cubes: "+actionCubes+"\n\n";
         out += "My Bird Cards: \n";
         for(int i = 0; i < birds.size(); i++) {
@@ -138,6 +137,10 @@ public class Player {
     public void addBirdCard(Bird bird) {
         birds.add(bird);
     }
+
+    public void addFoodToken(Game.Food token) {
+        foodTokens.add(token);
+    }
     
     public boolean hasName(){
         if(this.name.isEmpty()){
@@ -146,6 +149,7 @@ public class Player {
             return true;
         }
     }
+
 
     public boolean removeBirdCard(int id) {
         for(int i = 0; i < birds.size(); i++) {

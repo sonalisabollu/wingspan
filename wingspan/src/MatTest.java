@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 
 
-
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -34,7 +33,7 @@ public class MatTest {
 	//Tests adding a card to the board
 	@Test
 	public void testAddCard() {
-		Game wingspan = new Game("birds.csv");
+		Game wingspan = new Game("birds.csv", 1);
 		wingspan.setup();
 		Player player = wingspan.getPlayer();
 		Mat mat = player.getMat();
@@ -54,7 +53,6 @@ public class MatTest {
 		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
 		assertTrue(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
 		assertFalse(mat.addCard(new Bird(0, "", 1), Game.Habitat.Forest));
-
 	}
 
 
