@@ -3,31 +3,30 @@ import java.util.ArrayList;
 public class DieRoller
 {
     // instance variables - replace the example below with your own
-    ArrayList<Die> diceIn;
-    ArrayList<Die> diceOut;
-    private int facesPerDie;
-    private int dieCount;
     
+    DieRollerModel model;
     
     /**
      * Constructor for objects of class BirdFeeder
      */
     public DieRoller(int dieCount, int facesPerDie)
     {
-        diceIn = new ArrayList<>();
-        diceOut = new ArrayList<>();
-        this.facesPerDie = facesPerDie;
-         for(int i = 0; i<dieCount; i++){
-             Die die = new Die(facesPerDie);
-             this.diceIn.add(die);
-        }
+        this.model = new DieRollerModel(dieCount, facesPerDie);
     }
     
     /**
      * Roll each die
      */
-    public void rollAll(){
-        this.diceIn.forEach((die) -> die.roll()); 
+    public int [] rollAll(){
+        return model.rollAll();
+    }
+    
+    /**
+     * Return the number of faces per die
+     * @return Int numbe rof faces per die
+    */
+    public int getNumFacesPerDie(){
+        return model.getNumFacesPerDie();
     }
     
     
@@ -36,11 +35,7 @@ public class DieRoller
      * @return Array of values for each die
      */
     public int [] getValues(){
-        int[] values = new int[facesPerDie];
-        for(int i = 0; i< diceIn.size(); i++){
-            values[i] = diceIn.get(i).getCurrentFace();
-        }
-        return values;
+        return model.getValues();
     }
     
     /**
@@ -48,28 +43,20 @@ public class DieRoller
      * @param index index of die to be removed
      */
      public void removeDie(int index){
-         diceOut.add(diceIn.get(index));
-         diceIn.remove(index);
+         model.removeDie(index);
     }
     
     /**
      * Get number of dice on play
      */
     public int getDieCount(){
-        return diceIn.size();
+        return model.getDieCount();
     }
     
     /**
      * Restore all dice and randomize them
      */
     public void reset(){
-        if(this.diceOut.size() <1){
-            return;
-        }
-        for(int i = 0; i<= diceOut.size(); i++){
-            this.diceIn.add(diceOut.get(i));
-        }
-        
-        this.diceIn.forEach((die) -> die.roll()); 
+        model.reset();
     }
 }
